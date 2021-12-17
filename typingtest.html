@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Bakbak One', cursive;
+
+        }
+
+        .mainDiv {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: rgb(83, 196, 202);
+        }
+
+        .centreDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            /* font-family: 'Bakbak One', cursive; */
+
+        }
+
+        h1 {
+            text-transform: capitalize;
+            text-align: center;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+            text-shadow: 1px 2px 3px #2980b9;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        textarea {
+            background-color: #4444;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border: 5px solid #34495e;
+            color: white;
+        }
+
+        .mainBtn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 5px solid #2980b9;
+            background: #ecf0f1;
+            font-size: 1.5rem;
+            margin-top: 25px;
+            width: 200px;
+            cursor: pointer;
+        }
+
+        .mainBtn:hover {
+            background-color: rgb(151, 93, 83);
+        }
+
+        #masg {
+            color: rgb(172, 41, 67);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <div class="centreDiv">
+            <h1>Welcome To Dharma Typing Speed Test</h1>
+            <h2>Goodluck</h2>
+            <h2 id="masg"></h2>
+            <textarea name="" id="mywords" cols="100" rows="10" placeholder="type & check your typing speed"></textarea>
+            <br>
+            <button id="btn" class="mainBtn">Start</button>
+
+        </div>
+
+    </div>
+
+
+</body>
+<script>
+
+    const setOfWords = [
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, deleniti?",
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, doloribus sint!",
+        "Arrays are among the oldest and most important data structures, and are used by almost every program. ",
+        "a set of principles on which the practice of an activity is based.",
+        "Theory Official Site | Contemporary Clothing for Women and .",
+        "A theory is a rational type of abstract thinking about a phenomenon, or the results of such thinking. ",
+        "Stories common to a particular culture, but not supported by external sources (such as the tales surrounding King Arthur)",
+        "Thucydides remains a point of contention or approach in modern historical writing.",
+        "Animals (also called Metazoa) are multicellular, eukaryotic organisms in the biological kingdom Animalia.",
+        "Most living animal species are in Bilateria, a clade whose members have a bilaterally symmetric body plan.",
+        "Nonhuman animals have appeared in art from the earliest times and are featured in mythology and religion."
+
+    ]
+
+    const msg = document.getElementById('masg');
+    const typeWords = document.getElementById("mywords");
+    const btn = document.getElementById("btn");
+    let startTime, endTime;
+
+
+    const playGame = () => {
+        let randomNumber = Math.floor(Math.random() * setOfWords.length);
+        // console.log(randomNumber);
+        msg.innerText = setOfWords[randomNumber];
+
+        // start to done
+        let date = new Date();
+        startTime = date.getTime();
+        btn.innerText = "Done";
+    }
+
+    const endPlay = () => {
+        let date = new Date();
+        // startTime = date.getTime();
+        endTime = date.getTime();
+        let totalTime = ((endTime - startTime) / 1000);
+        console.log(" Total time is " + totalTime);
+
+
+        let totalStr = typeWords.value;
+        let wordCount = wordCounter(totalStr);
+
+        let speed = Math.floor((wordCount / totalTime) * 60);
+
+        let finalMsg = " You typed toatl at  " + speed + " words per minutes ";
+
+        finalMsg += compareWords(msg.innerText, totalStr);
+        msg.innerText = finalMsg;
+        console.log(finalMsg)
+
+
+
+
+    }
+
+    const compareWords = (str1, str2) => {
+        let words1 = str1.split(" ");
+        let words2 = str2.split(" ");
+        let cnt = 0;
+
+        // }
+
+        words1.forEach(function (item, index) {
+            if (item == words2[index]) {
+                cnt++;
+            }
+        })
+
+
+        let errrWords = (words1.length - cnt);
+        return (cnt + " correct out of  " + words1.length + " words and the total number of error are " + errrWords + ".");
+    }
+
+    //  for word count 
+
+    const wordCounter = (str) => {
+        let response = str.split(" ").length;
+        console.log(" word count is " + response);
+        return response;
+
+    }
+
+
+
+    btn.addEventListener('click', function () {
+        // console.log(this);
+        if (this.innerText == 'Start') {
+            typeWords.disabled = false;
+            playGame();
+        } else if (this.innerText == "Done") {
+            typeWords.disabled = true;
+            btn.innerText = "Start";
+            endPlay();
+        }
+    })
+
+</script>
+
+</html>
